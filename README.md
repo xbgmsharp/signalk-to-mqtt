@@ -1,21 +1,11 @@
-# Signal K - MQTT Gateway
+# Signal K to MQTT
 
-Signal K Node server plugin that functions as a gateway between MQTT and SK server. You can
-- run a local server that has all SK data available and that routes all data from other MQTT clients to Signal K deltas. The server is advertised via mdns/Bonjour
-- connect to a MQTT server and send deltas you choose with chosen interval to `signalk/delta`
+Signal K server plugin to send all self SignalK numeric data, `navigation.position` and `navigation.attitude` to MQTT.
 
-![image](https://user-images.githubusercontent.com/1049678/28848552-0d624088-771c-11e7-963d-4a7761bfd2a4.png)
+SendMessageAsKey
+ * Subscribe to: `+/signalk/key/#`, eg: `<client ID>/signalk/key/environment/depth/belowTransducer`
 
+sendMessageAsDelta:
+ * Subscribe to: `+/signalk/delta`, eg: `<client ID>/signalk/delta`
 
-If you run a local server you can send data to the server like so:
-
-`mosquitto_pub -h localhost -p 1883 -m 292 -t 'vessels/self/environment/temperature/outside'`
-
-You can check that data is being sent to the local server with `mosquitto_sub`:
-```
-$ mosquitto_sub -h localhost -p 1884 -t 'vessels/self/navigation/speedOverGround'
-3.58
-3.59
-3.59
-```
-# signalk-to-mqtt
+The `<client ID>` must be unique, so it use your Signal K UUID or your MMSI.
